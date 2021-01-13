@@ -1,0 +1,3 @@
+let Table = {
+	ableToPlay : true;
+}
