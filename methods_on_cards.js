@@ -33,6 +33,14 @@ let showDeck = () => {
 	console.log(deck);
 }
 
+let popDeck = () => {
+	return deck.pop();
+}
+
+let deckLength = () => {
+	console.log(deck.length);
+}
+
 let clearDeck = () => {
 	deck = [];
 }
@@ -41,5 +49,7 @@ module.exports = {
 	restoreDeck,
 	shuffleDeck,
 	showDeck,
-	clearDeck
+	clearDeck,
+	popDeck,
+	deckLength
 };

@@ -44,9 +44,9 @@ let Card = class Card {
 				break;
 		}
 	}
-	getName = () => this.name;
-	getRank = () => this.rank;
-	getSuit = () => this.suit;
+	get_name = () => this.name;
+	get_rank = () => this.rank;
+	get_suit = () => this.suit;
 }
 
 module.exports.Card = Card;

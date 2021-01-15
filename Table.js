@@ -1,3 +1,7 @@
-let Table = {
-	ableToPlay : true;
+let Table = class Table {
+	ableToPlay = false;
+		
+	constructor(
+		
+	)
 }
