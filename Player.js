@@ -1,4 +1,4 @@
-let { popDeck } = require('./methods_on_cards')
+let { popDeck } = require('./methods-on-cards')
 
 let Player = class Player {
 	isSmallBlind = false;
