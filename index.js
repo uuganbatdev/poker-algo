@@ -1,18 +1,29 @@
 let { restoreDeck, shuffleDeck, showDeck, clearDeck, popDeck, deckLength } = require('./methods-on-cards');
+let { drawToTable, isReadyToPlay, fillTablePlayer, giveCardsToPlayers, showTable } = require('./methods-on-table');
+
 let { Player } = require('./Player');
 
-let uuganbat = new Player('uuganbat', 100000, 1000, 2);
-let uuganbat1 = new Player('uuganabt1', 100000, 1000, 3);
 
-//restoreDeck();
-//shuffleDeck();
-//uuganbat.set_handCards();
-//uuganbat1.set_handCards();
-//console.log(uuganbat.get_handCards());
-//console.log(uuganbat1.get_handCards());
-//deckLength();
+let players = [new Player('uuganbat', 100000, 1000, 1), new Player('uuganabt1', 100000, 1000, 3)];
+
 restoreDeck();
 shuffleDeck();
-showDeck();
-popDeck();
-showDeck();
+
+
+for (let i = 0; i < players.length; i++) {
+	fillTablePlayer(players[i], players[i].get_sitIndex());
+}
+
+if(isReadyToPlay()) {
+	giveCardsToPlayers();
+} else {
+	console.log('not able to play');
+}
+
+drawToTable();
+drawToTable();
+drawToTable();
+drawToTable();
+drawToTable();
+
+showTable();
