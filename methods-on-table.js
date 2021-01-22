@@ -1,8 +1,13 @@
 let { Table } = require('./Table');
 let { popDeck, restoreDeck, deckLength } = require('./methods-on-cards');
+let { checkRanking } = require('./checkRanking');
 
 let drawToTable = () => {
 	Table.communityCards.push(popDeck());
+}
+
+let getCommunityCards = () => {
+	return Table.communityCards;
 }
 
 let isReadyToPlay = () => {
@@ -26,6 +31,14 @@ let giveCardsToPlayers = () => {
 	}
 }
 
+let whoWinner = () => {
+	for(let i = 0; i < Table.players.length; i++) {
+		if(Table.players[i]){
+			checkRanking(Table.players[i].get_handCards(),Table.communityCards);
+		}
+	}
+}
+
 let showTable = () => console.log(Table);
 
 module.exports = {
@@ -33,5 +46,6 @@ module.exports = {
 	isReadyToPlay,
 	fillTablePlayer,
 	showTable,
-	giveCardsToPlayers 
+	giveCardsToPlayers,
+	getCommunityCards
 }

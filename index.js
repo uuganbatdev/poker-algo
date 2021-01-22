@@ -1,5 +1,6 @@
 let { restoreDeck, shuffleDeck, showDeck, clearDeck, popDeck, deckLength } = require('./methods-on-cards');
-let { drawToTable, isReadyToPlay, fillTablePlayer, giveCardsToPlayers, showTable } = require('./methods-on-table');
+let { drawToTable, getCommunityCards, isReadyToPlay, fillTablePlayer, giveCardsToPlayers, showTable } = require('./methods-on-table');
+let { checkRanking } = require('./checkRanking');
 
 let { Player } = require('./Player');
 
@@ -23,7 +24,9 @@ if(isReadyToPlay()) {
 drawToTable();
 drawToTable();
 drawToTable();
-drawToTable();
-drawToTable();
+
+checkRanking(players[0].get_handCards(),getCommunityCards());
+console.log(players[0]);
 
 showTable();
+
