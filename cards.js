@@ -6,5 +6,9 @@ let deck = [];
 module.exports = {
 	names,
 	suits,
-	deck
+	deck,
+	CLUB,
+	DIAMOND,
+	HEART,
+	SPADE
 };
