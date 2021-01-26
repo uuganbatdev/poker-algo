@@ -35,13 +35,13 @@ let getHighRankCards = ( inputCards, removeCards, howManyCards ) => {
 	let cards1 = [...inputCards];
 	let cards2 = [...removeCards];
 
-	for ( let i = 0; i < cards1.length; i++ ) {
-		for( let j = 0; j < cards2.length; j++ ) {
-			if ( cards1[i].get_name() == cards2[j].get_name() && 
-				cards1[i].get_suit() == cards2[j].get_suit() 
+	for ( let i = 0; i < cards2.length; i++ ) {
+		for( let j = 0; j < cards1.length; j++ ) {
+			if ( cards2[i].get_name() == cards1[j].get_name() && 
+				cards2[i].get_suit() == cards1[j].get_suit() 
 			) {
-				cards1.splice(i,1);
-				i = 0;
+				cards1.splice(j,1);
+				j = 0;
 			}
 		}
 	}
