@@ -1,18 +1,36 @@
 let [
-	HAND_CARD_PAIR,
-	COMMUNITY_CARD_PAIR_FIRST,
-	COMMUNITY_CARD_PAIR_SECOND,
-	NOT_PAIR
+	HIGH_CARD,
+	ONE_PAIR,
+	TWO_PAIR,
+	THREE_OF_KIND,
+	STRAIGHT,
+	FLUSH,
+	FULL_HOUSE,
+	FOUR_OF_KIND,
+	STRAIGHT_FLUSH,
+	ROYAL_FLUSH
 ] = [
-	'hand card pair',
-	'community card pair first',// handcard cumminity cardiin 
-	'community card pair second',// ali negtei taarj baiga eseh
-	'not pair'
+	'high card',
+	'one pair',
+	'two pair',
+	'three of a kind',
+	'straight',
+	'flush',
+	'full house',
+	'four of a kind',
+	'straight flush',
+	'royal flush'
 ]
 	
 module.exports = {
-	HAND_CARD_PAIR,
-	COMMUNITY_CARD_PAIR_FIRST,
-	COMMUNITY_CARD_PAIR_SECOND,
-	NOT_PAIR
+	HIGH_CARD,
+	ONE_PAIR,
+	TWO_PAIR,
+	THREE_OF_KIND,
+	STRAIGHT,
+	FLUSH,
+	FULL_HOUSE,
+	FOUR_OF_KIND,
+	STRAIGHT_FLUSH,
+	ROYAL_FLUSH
 }
