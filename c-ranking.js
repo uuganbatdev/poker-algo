@@ -1,3 +1,5 @@
+"use strict";
+
 let consts = require('./constants-in-check-ranking');
 let { restoreDeck, sortCards, getHighRankCards, shuffleDeck, showDeck, clearDeck, popDeck, deckLength } = require('./methods-on-cards');
 let { Card } = require('./Card');
@@ -10,16 +12,16 @@ let checkRanking = (handCards, communityCards) => {
 	// hand cards
 	let hCards = [
 		new Card('A', SPADE),
-		new Card('2', SPADE)
+		new Card('K', SPADE)
 	];
 
 	// communitycards
 	let cCards = [
-		new Card('3', SPADE), 
-		new Card('4', SPADE), 
-		new Card('5', SPADE), 
-		new Card('7', SPADE),
-		new Card('3', HEART)
+		new Card('Q', HEART), 
+		new Card('J', HEART), 
+		new Card('9', SPADE), 
+		new Card('7', DIAMOND),
+		new Card('7', SPADE)
 	];
 
 	// all cards
@@ -30,19 +32,22 @@ let checkRanking = (handCards, communityCards) => {
 		let result = [];
 		let cards1 = sortCards([...globalCards]);
 
-		for ( let i = 0; i < 2; i++ ) {
-			for ( let j = i+1; j < cards1.length; j++ ) {
-				if ( cards1[i].get_suit() == cards1[j].get_suit() ) {
-					if ( !result[0] ) {
-						result.push(cards1[i]);
-					}
+		for ( let i = 0; i < cards1.length; i++ ) {
+			result.push(cards1[i]);
+			for ( let j = 0; j < cards1.length; j++ ) {
+				if ( i == j ) {
+					continue;
+				} else if ( cards1[i].get_suit() == cards1[j].get_suit() ) {
 					result.push(cards1[j]);
 				}
 			}
 			if (result.length >= 5) {
 				break;
+			} else {
+				result = [];
 			}
 		}
+
 
 		if ( result.length >= 5 ) {
 			let cards2 = [...result];
@@ -50,25 +55,60 @@ let checkRanking = (handCards, communityCards) => {
 
 			for ( let i = 0, j = 1; j < cards2.length; i++, j++ ) {
 				if ( cards2[i].get_rank() - cards2[j].get_rank() == 1) {
-					result2.push(cards2[i]);
-					if ( result2.length == 4 || result2.length == 3  ) {
-						if ( cards2[i].get_rank() - cards2[i+1].get_rank() == 1) {
-							result2.push(cards2[i+1]);
-							break;
-						}
+					if ( result2[0] == undefined ) {
+						result2.push(cards2[i]);
+					}
+					if ( result2[result2.length - 1].get_rank() - cards2[j].get_rank() == 1 ) {
+						result2.push(cards2[j]);
+					} else if ( result2.length < 3 ) {
+						result2 = [];
+						i--;
+						j--;
 					}
 				}
 			}
 
-			if ( result2.length ) {
-				console.log('sda');
-				console.log(result2);
+			if ( cards2[0].get_name() == 'A' ) {
+				result2.push(result[0]);
 			}
 
+			let len = result2.length;
+			if ( len >= 5 ) {
+				if (
+					result2[len - 1].get_name() == 'A'&&
+					result2[len - 2].get_name() == '2'&&
+					result2[len - 3].get_name() == '3'&&
+					result2[len - 4].get_name() == '4'&&
+					result2[len - 5].get_name() == '5'
+				)  {
+					if ( result2[len - 6] ) {
+						if ( result2[len - 6].get_name() == '6' ) {
+							rank.push(consts.STRAIGHT_FLUSH);
+							rank.push([...result2.splice(0,5)]);
+						}
+					} else {
+						rank.push(consts.STRAIGHT_FLUSH);
+						rank.push([...result2.splice(len-5,5)]);
+					}
+				} else if (
+					result2[0].get_name() == 'A'&&
+					result2[1].get_name() == 'K'&&
+					result2[2].get_name() == 'Q'&&
+					result2[3].get_name() == 'J'&&
+					result2[4].get_name() == '10'
+				) {
+					rank.push(consts.ROYAL_FLUSH);
+					rank.push([...result2.splice(0,5)]);
+				} else {
+					rank.push(consts.STRAIGHT_FLUSH);
+					rank.push([...result2.splice(0,5)]);
+				}
+			} else {
+				rank.push(consts.FLUSH);
+				rank.push([...result.splice(0,5)]);
+			}
 		}
 	}
-
-	checkFlush();
 
 	let checkStraight = () => {
 		let result = [];
@@ -76,58 +116,51 @@ let checkRanking = (handCards, communityCards) => {
 
 		for ( let i = 0, j = 1; j < cards1.length; i++, j++ ) {
 			if ( cards1[i].get_rank() - cards1[j].get_rank() == 1) {
-				result.push(cards1[i]);
-				if ( result.length == 4 || result.length == 3  ) {
-					if ( cards1[i].get_rank() - cards1[i+1].get_rank() == 1) {
-						result.push(cards1[i+1]);
-						break;
-					}
+				if ( result[0] == undefined ) {
+					result.push(cards1[i]);
+				} 
+				if ( result[result.length - 1].get_rank() - cards1[j].get_rank() == 1 ) {
+					result.push(cards1[j]);
+				} else if ( result.length < 3 ) {
+					result = [];
+					i--;
+					j--;
 				}
 			}
-		}
-		
-		if (
-			result[3].get_name() == '2'&&
-			result[2].get_name() == '3'&&
-			result[1].get_name() == '4'&&
-			result[0].get_name() == '5'&&
-			cards1[0].get_name() == 'A'
-		) {
-			if (
-				result[0].get_suit() == result[1].get_suit() &&
-				result[2].get_suit() == result[3].get_suit() &&
-				result[1].get_suit() == result[2].get_suit() &&
-				cards1[0].get_suit() == result[2].get_suit() 
-			) {
-				rank.push(consts.STRAIGHT_FLUSH);
-			} else {
-				rank.push(consts.STRAIGHT);
-			}
-			rank.push([...result, cards1[0]]);
-		} else if ( result.length == 5) {
-			if (
-				result[0].get_suit() == result[1].get_suit() &&
-				result[2].get_suit() == result[3].get_suit() &&
-				result[1].get_suit() == result[2].get_suit() &&
-				result[4].get_suit() == result[2].get_suit() 
-			) { 
-				if ( 
-					result[0].get_name() == 'A'&&
-					result[1].get_name() == 'K'&&
-					result[2].get_name() == 'Q'&&
-					result[3].get_name() == 'J'&&
-					result[4].get_name() == '10'
-				) {
-					rank.push(consts.ROYAL_FLUSH);
-				} else {
-					rank.push(consts.STRAIGHT_FLUSH);
-				}
-			} else {
-				rank.push(consts.STRAIGHT);
-			}
-			rank.push(result);
 		}
 
+		let result2 = [...result];
+		if ( cards1[0].get_name() == 'A' ) {
+			result2.push(cards1[0]);
+		}
+
+		let len = result2.length;
+		if ( len >= 5 ) {
+
+			if (
+				result2[len - 1].get_name() == 'A'&&
+				result2[len - 2].get_name() == '2'&&
+				result2[len - 3].get_name() == '3'&&
+				result2[len - 4].get_name() == '4'&&
+				result2[len - 5].get_name() == '5'
+			) { 
+				if ( result2[len - 6] ) {
+					if ( result2[len - 6].get_name() == '6' ) {
+						rank.push(consts.STRAIGHT);
+						rank.push([...result2.splice(0,5)]);
+
+					}
+				} else {
+					rank.push(consts.STRAIGHT);
+					rank.push([...result2.splice(len - 5,5)]);
+				}
+			} else if ( result.length >= 5) {
+				rank.push(consts.STRAIGHT);
+				rank.push([...result.splice(0,5)]);
+			}
+
+
+		}
 	}
 
 	let checkPairs = () => {
@@ -212,8 +245,9 @@ let checkRanking = (handCards, communityCards) => {
 						} 
 					}
 					else {
+						let twoPair = [...pairs.splice(0,4)];
 						rank.push(consts.TWO_PAIR);
-						rank.push([...pairs.splice(0,4),...getHighRankCards( compareCards, pairs, 1 )]);
+						rank.push([...twoPair,...getHighRankCards( compareCards, twoPair, 1 )]);
 					}
 					break;
 
@@ -265,6 +299,19 @@ let checkRanking = (handCards, communityCards) => {
 			}
 		}
 	}
+
+	checkFlush();
+	if ( rank == 0 ) {
+		checkStraight();
+		if ( rank == 0 ) {
+			checkPairs(); 
+			if ( rank == 0 ) {
+				rank.push(consts.HIGH_CARD);
+				rank.push(sortCards(globalCards).splice(0,5));
+			}
+		}
+	}
+
 
 	console.log(rank);
 }
