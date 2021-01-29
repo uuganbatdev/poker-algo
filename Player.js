@@ -4,7 +4,7 @@ let Player = class Player {
 	isSmallBlind = false;
 	isBigBlind = false;
 	isFolded = false;
-	handCards = new Array(2);
+	handCards = [];
 
 	constructor(
 		pname,
@@ -42,7 +42,9 @@ let Player = class Player {
 		this.handCards[0] = popDeck();
 		this.handCards[1] = popDeck();
 	}
-
+	clear_handCards() {
+		this.handCards = [];
+	}
 	get_pname() {
 		return this.pname;
 	}

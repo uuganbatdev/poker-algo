@@ -10,6 +10,10 @@ let getCommunityCards = () => {
 	return Table.communityCards;
 }
 
+let clearCommunityCards = () => {
+	Table.communityCards = [];
+}
+
 let isReadyToPlay = () => {
 	if(Table.players.length < 2){
 		return false;
@@ -47,5 +51,6 @@ module.exports = {
 	fillTablePlayer,
 	showTable,
 	giveCardsToPlayers,
-	getCommunityCards
+	getCommunityCards,
+	clearCommunityCards
 }
