@@ -11,17 +11,17 @@ let { DIAMOND, HEART, SPADE, CLUB } = require('./cards');
 let checkRanking = (handCards, communityCards) => {
 	// hand cards
 	let hCards = [
-//		new Card('A', SPADE),
-//		new Card('K', SPADE)
+//		new Card('4', SPADE),
+//		new Card('4', SPADE)
 		...handCards
 	];
 
 	// communitycards
 	let cCards = [
-//		new Card('Q', HEART), 
-//		new Card('J', HEART), 
-//		new Card('9', SPADE), 
-//		new Card('7', DIAMOND),
+//		new Card('4', HEART), 
+//		new Card('2', SPADE), 
+//		new Card('5', SPADE), 
+//		new Card('8', DIAMOND),
 //		new Card('7', SPADE)
 		...communityCards
 	];
@@ -212,7 +212,11 @@ let checkRanking = (handCards, communityCards) => {
 
 				case 5:
 					rank.push(consts.FULL_HOUSE);
-					rank.push([...pairs]);
+					if (pairs[2].get_name() == pairs[4].get_name() ) {
+						rank.push([...pairs.splice(2,3),...pairs.splice(0,2)]);
+					} else {
+						rank.push([...pairs]);
+					}
 					break;
 
 				case 6:
@@ -239,7 +243,7 @@ let checkRanking = (handCards, communityCards) => {
 					else if ( pairs[3].get_name() == pairs[5].get_name() ) {
 						if ( pairs[1].get_name() == pairs[2].get_name() ) {
 							rank.push(consts.FULL_HOUSE);
-							rank.push([...pairs.splice(1,5)]);
+							rank.push([...pairs.splice(3,3),...pairs.splice(1,2)]);
 						} else {
 							let threeOfKind3 = [pairs[3],pairs[4],pairs[5]];
 							rank.push(consts.THREE_OF_KIND);
@@ -275,9 +279,9 @@ let checkRanking = (handCards, communityCards) => {
 						}
 					}
 					else if ( pairs[4].get_name() == pairs[6].get_name() ) {
-						if ( pairs[2].get_name() == pairs[3].get_name() ) {
+						if ( pairs[0].get_name() == pairs[1].get_name() ) {
 							rank.push(consts.FULL_HOUSE);
-							rank.push([...pairs.splice(2,5)]);
+							rank.push([...pairs.splice(4,3),...pairs.splice(0,2)]);
 						} else {
 							let threeOfKind6 = [pairs[4],pairs[5],pairs[6]];
 							rank.push(consts.THREE_OF_KIND);
@@ -287,10 +291,10 @@ let checkRanking = (handCards, communityCards) => {
 					else if ( pairs[2].get_name() == pairs[4].get_name() )  {
 						if ( pairs[0].get_name() == pairs[1].get_name() ) {
 							rank.push(consts.FULL_HOUSE);
-							rank.push([...pairs.splice(0,5)]);
+							rank.push([...pairs.splice(2,3),...pairs.splice(0,2)]);
 						} else if ( pairs[5].get_name() == pairs[6].get_name() ) {
 							rank.push(consts.FULL_HOUSE);
-							rank.push([...pairs.splice(2,5)]);
+							rank.push([...pairs.splice(2,3),...pairs.splice(5,2)]);
 						} else {
 							let threeOfKind7 = [pairs[2],pairs[3],pairs[4]];
 							rank.push(consts.THREE_OF_KIND);
@@ -315,7 +319,6 @@ let checkRanking = (handCards, communityCards) => {
 		}
 	}
 
-	console.log(rank);
 	return rank;
 }
 
