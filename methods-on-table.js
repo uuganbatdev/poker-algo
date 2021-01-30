@@ -1,3 +1,5 @@
+"use strict";
+
 let { Table } = require('./Table');
 let { popDeck, restoreDeck, deckLength } = require('./methods-on-cards');
 let { checkRanking } = require('./checkRanking');
@@ -28,13 +30,6 @@ let fillTablePlayer = (player, playerIndex) => {
 	Table.players[playerIndex] = player;
 }
 
-let giveCardsToPlayers = () => {
-	for(let i = 0; i < Table.players.length; i++) {
-		if(Table.players[i]){
-			Table.players[i].set_handCards();
-		}
-	}
-}
 
 let doSomethingOnPlayers = (callback) => {
 	for (let i = 0; i < Table.players.length; i++) {
@@ -44,18 +39,54 @@ let doSomethingOnPlayers = (callback) => {
 	}
 }
 
+let giveCardsToPlayers = () => {
+	doSomethingOnPlayers(
+		(player) => player.set_handCards()
+	)
+}
+
 let whoWinner = () => {
-	let result;
+	let result = [];
+	let rankingResult;
+	let players = [];
 
 	doSomethingOnPlayers(
 		(player) => {
-			result = checkRanking(player.get_handCards(),Table.communityCards);
-			player.set_roundRank(result[0]);
-			player.set_roundCard(result[1]);
+			rankingResult = checkRanking(player.get_handCards(),Table.communityCards);
+			player.set_roundRank(rankingResult[0]);
+			player.set_roundCard(rankingResult[1]);
 		}
 	);
 
+	doSomethingOnPlayers(
+		(player) => {
+			players.push(player);
+		}
+	)
 
+	let highestRank = 0;
+	for ( let i = 0; i < players.length; i++ ) {
+		if ( players[i].get_roundRank()[1] > highestRank ) {
+			highestRank = players[i].get_roundRank()[1]; 
+		}
+	}
+	for ( let i = 0; i < players.length; i++ ) {
+		if ( players[i].get_roundRank()[1] == highestRank ) {
+			result.push(players[i]);
+		}
+	}
+
+	return result;
+}
+
+let clearPayersRoundRankCards = () => {
+	doSomethingOnPlayers(
+		(player) => {
+			player.set_roundRank([]);
+			player.set_roundCard([]);
+			player.clear_handCards();
+		}
+	)
 }
 
 let showTable = () => console.log(Table);
@@ -68,5 +99,6 @@ module.exports = {
 	giveCardsToPlayers,
 	getCommunityCards,
 	clearCommunityCards,
-	whoWinner
+	whoWinner,
+	clearPayersRoundRankCards 
 }

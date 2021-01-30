@@ -27,7 +27,7 @@ let Player = class Player {
 
 	set_roundRank(newroundRank) {
 		if (newroundRank == 0) {
-			this.roundRank == [];
+			this.roundRank = [];
 		} else {
 			this.roundRank.push(newroundRank);
 			switch (newroundRank) {

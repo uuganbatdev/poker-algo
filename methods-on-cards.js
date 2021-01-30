@@ -49,6 +49,10 @@ let getHighRankCards = ( inputCards, removeCards, howManyCards ) => {
 	return sortCards(cards1).splice(0,howManyCards);
 }
 
+let whichIsHighestSequence = (cards1, cards2) => {
+	 
+}
+
 let showDeck = () => {
 	console.log(deck);
 }
