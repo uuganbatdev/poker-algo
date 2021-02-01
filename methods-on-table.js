@@ -76,7 +76,268 @@ let whoWinner = () => {
 		}
 	}
 
-	return result;
+	let cardRank = (player,cardIndex) => {
+		return player.get_roundCard()[cardIndex].get_rank();
+	}
+	let checkTie = 0;
+	if ( result.length == 1 ) {
+		return result;
+	} else {
+		for ( let i in result ) {
+			console.log(result[i].get_handCards());
+		}
+		switch ( result[0].get_roundRank()[0] ) {
+			case consts.HIGH_CARD:
+				for ( let i = 0; i < result.length - 1; i++ ) {
+					if ( cardRank(result[i],0) > cardRank(result[i+1],0) ) {
+						result.splice(i+1,1);
+					} else if ( cardRank(result[i],0) == cardRank(result[i+1],0) ) {
+						if ( cardRank(result[i],1) > cardRank(result[i+1],1) ) {
+							result.splice(i+1,1);
+						} else if ( cardRank(result[i],1) == cardRank(result[i+1],1) ) {
+							if ( cardRank(result[i],2) > cardRank(result[i+1],2) ) {
+								result.splice(i+1,1);
+							} else if ( cardRank(result[i],2) == cardRank(result[i+1],2) ) {
+								if ( cardRank(result[i],3) > cardRank(result[i+1],3) ) {
+									result.splice(i+1,1);
+								} else if ( cardRank(result[i],3) == cardRank(result[i+1],3) ) {
+									if ( cardRank(result[i],4) > cardRank(result[i+1],4) ) {
+										result.splice(i+1,1);
+									} else if ( cardRank(result[i],4) == cardRank(result[i+1],4) ) {
+										continue;
+									} else {
+										result.splice(i,1);
+									}
+								} else {
+									result.splice(i,1);
+								}
+							} else {
+								result.splice(i,1);
+							}
+						} else {
+							result.splice(i,1);
+						}
+					} else {
+						result.splice(i,1);
+					} 
+
+					if ( i == 0 ) {
+						i = 0;
+					} else {
+						i--;
+					}
+				}
+				break;
+			case consts.ONE_PAIR:
+				for ( let i = 0; i < result.length - 1; i++ ) {
+					if ( cardRank(result[i],0) > cardRank(result[i+1],0) ) {
+						result.splice(i+1,1);
+					} else if ( cardRank(result[i],0) == cardRank(result[i+1],0) ) {
+						if (cardRank(result[i],2) > cardRank(result[i+1],2) ) {
+							result.splice(i+1,1);
+						} else if ( cardRank(result[i],2) == cardRank(result[i+1],2) ) {
+							if ( cardRank(result[i],3) > cardRank(result[i+1],3) ) {
+								result.splice(i+1,1);
+							} else if ( cardRank(result[i],3) == cardRank(result[i+1],3) ) {
+								if ( cardRank(result[i],4) > cardRank(result[i+1],4) ) {
+									result.splice(i+1,1);
+								} else if ( cardRank(result[i],4) == cardRank(result[i+1],4) ) {
+									continue;
+								} else {
+									result.splice(i,1);
+								}
+							} else {
+								result.splice(i,1);
+							}
+						} else {
+							result.splice(i,1);
+						}
+					} else {
+						result.splice(i,1);
+					} 
+					if ( i == 0 ) {
+						i = 0;
+					} else {
+						i--;
+					}
+				}
+				break;
+			case consts.TWO_PAIR:
+				for ( let i = 0; i < result.length - 1; i++ ) {
+					if ( cardRank(result[i],0) > cardRank(result[i+1],0) ) {
+						result.splice(i+1,1);
+					} else if ( cardRank(result[i],0) == cardRank(result[i+1],0) ) {
+						if (cardRank(result[i],2) > cardRank(result[i+1],2) ) {
+							result.splice(i+1,1);
+						} else if ( cardRank(result[i],2) == cardRank(result[i+1],2) ) {
+							if ( cardRank(result[i],4) > cardRank(result[i+1],4) ) {
+								result.splice(i+1,1);
+							} else if ( cardRank(result[i],4) == cardRank(result[i+1],4) ) {
+								continue;
+							} else {
+								result.splice(i,1);
+							}
+						} else {
+							result.splice(i,1);
+						}
+					} else {
+						result.splice(i,1);
+					} 
+					if ( i == 0 ) {
+						i = 0;
+					} else {
+						i--;
+					}
+				}
+				break;
+			case consts.THREE_Of_KIND:
+				for ( let i = 0; i < result.length - 1; i++ ) {
+					if ( cardRank(result[i],0) > cardRank(result[i+1],0) ) {
+						result.splice(i+1,1);
+					} else if ( cardRank(result[i],0) == cardRank(result[i+1],0) ) {
+						if (cardRank(result[i],3) > cardRank(result[i+1],3) ) {
+							result.splice(i+1,1);
+						} else if ( cardRank(result[i],3) == cardRank(result[i+1],3) ) {
+							if ( cardRank(result[i],4) > cardRank(result[i+1],4) ) {
+								result.splice(i+1,1);
+							} else if ( cardRank(result[i],4) == cardRank(result[i+1],4) ) {
+								continue;
+							} else {
+								result.splice(i,1);
+							}
+						} else {
+							result.splice(i,1);
+						}
+					} else {
+						result.splice(i,1);
+					} 
+					if ( i == 0 ) {
+						i = 0;
+					} else {
+						i--;
+					}
+				}
+				break;
+			case consts.STRAIGHT:
+				for ( let i = 0; i < result.length - 1; i++ ) {
+					if ( cardRank(result[i],0) > cardRank(result[i+1],0) ) {
+						result.splice(i+1,1);
+					} else if ( cardRank(result[i],0) == cardRank(result[i+1],0) ) {
+						continue;
+					} else {
+						result.splice(i,1);
+					} 
+					if ( i == 0 ) {
+						i = 0;
+					} else {
+						i--;
+					}
+				}
+				break;
+			case consts.FLUSH:
+				for ( let i = 0; i < result.length - 1; i++ ) {
+					if ( cardRank(result[i],0) > cardRank(result[i+1],0) ) {
+						result.splice(i+1,1);
+					} else if ( cardRank(result[i],0) == cardRank(result[i+1],0) ) {
+						if (cardRank(result[i],1) > cardRank(result[i+1],1) ) {
+							result.splice(i+1,1);
+						} else if ( cardRank(result[i],1) == cardRank(result[i+1],1) ) {
+							if ( cardRank(result[i],2) > cardRank(result[i+1],2) ) {
+								result.splice(i+1,1);
+							} else if ( cardRank(result[i],2) == cardRank(result[i+1],2) ) {
+								if ( cardRank(result[i],3) > cardRank(result[i+1],3) ) {
+									result.splice(i+1,1);
+								} else if ( cardRank(result[i],3) == cardRank(result[i+1],3) ) {
+									if ( cardRank(result[i],4) > cardRank(result[i+1],4) ) {
+										result.splice(i+1,1);
+									} else if ( cardRank(result[i],4) == cardRank(result[i+1],4) ) {
+										continue;
+									} else {
+										result.splice(i,1);
+									}
+								} else {
+									result.splice(i,1);
+								}
+							} else {
+								result.splice(i,1);
+							}
+						} else {
+							result.splice(i,1);
+						}
+					} else {
+						result.splice(i,1);
+					} 
+					if ( i == 0 ) {
+						i = 0;
+					} else {
+						i--;
+					}
+				}
+				break;
+			case consts.FULL_HOUSE:
+				for ( let i = 0; i < result.length - 1; i++ ) {
+					if ( cardRank(result[i],0) > cardRank(result[i+1],0) ) {
+						result.splice(i+1,1);
+					} else if ( cardRank(result[i],0) == cardRank(result[i+1],0) ) {
+						if (cardRank(result[i],3) > cardRank(result[i+1],3) ) {
+							result.splice(i+1,1);
+						} else if ( cardRank(result[i],3) == cardRank(result[i+1],3) ) {
+							continue;
+						} else {
+							result.splice(i,1);
+						}
+					} else {
+						result.splice(i,1);
+					} 
+					if ( i == 0 ) {
+						i = 0;
+					} else {
+						i--;
+					}
+				}
+				break;
+			case consts.FOUR_OF_KIND:
+				for ( let i = 0; i < result.length - 1; i++ ) {
+					if ( cardRank(result[i],0) > cardRank(result[i+1],0) ) {
+						result.splice(i+1,1);
+					} else if ( cardRank(result[i],0) == cardRank(result[i+1],0) ) {
+						if (cardRank(result[i],4) > cardRank(result[i+1],4) ) {
+							result.splice(i+1,1);
+						} else if ( cardRank(result[i],4) == cardRank(result[i+1],4) ) {
+							continue;
+						} else {
+							result.splice(i,1);
+						}
+					} else {
+						result.splice(i,1);
+					} 
+					if ( i == 0 ) {
+						i = 0;
+					} else {
+						i--;
+					}
+				}
+				break;
+			case consts.STRAIGHT_FLUSH:
+				for ( let i = 0; i < result.length - 1; i++ ) {
+					if ( cardRank(result[i],0) > cardRank(result[i+1],0) ) {
+						result.splice(i+1,1);
+					} else if ( cardRank(result[i],0) == cardRank(result[i+1],0) ) {
+						continue;
+					} else {
+						result.splice(i,1);
+					} 
+					if ( i == 0 ) {
+						i = 0;
+					} else {
+						i--;
+					}
+				}
+				break;
+		}
+		return result;
+	}
+
 }
 
 let clearPayersRoundRankCards = () => {
@@ -89,7 +350,7 @@ let clearPayersRoundRankCards = () => {
 	)
 }
 
-let showTable = () => console.log(Table);
+let showTable = () => console.log(Table.communityCards);
 
 module.exports = {
 	drawToTable,
